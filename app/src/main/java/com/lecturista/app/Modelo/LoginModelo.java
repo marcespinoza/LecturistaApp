@@ -4,12 +4,15 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.lecturista.app.Application.GlobalApplication;
 import com.lecturista.app.Helper.APICLient;
 import com.lecturista.app.Interface.ApiService;
 import com.lecturista.app.Interface.LoginInterface;
 import com.lecturista.app.POJO.LoginError;
 import com.lecturista.app.POJO.LoginResponse;
 import com.lecturista.app.Presentador.LoginPresentador;
+import com.preference.PowerPreference;
+import com.preference.Preference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +28,7 @@ public class LoginModelo implements LoginInterface.Modelo {
 
     public LoginModelo(LoginPresentador lPresentador) {
         this.lPresentador = lPresentador;
+        PowerPreference.init(GlobalApplication.getContext());
     }
 
     @Override
@@ -32,6 +36,12 @@ public class LoginModelo implements LoginInterface.Modelo {
         requestLogin(usuario, password);
     }
 
+    @Override
+    public void checkLogin() {
+        checkLoginUser();
+    }
+
+    //----------Endpoint login----------//
     public void requestLogin(String usuario, String password){
         Retrofit retrofit = APICLient.getApiService();
         ApiService apiService = retrofit.create(ApiService.class);
@@ -43,15 +53,14 @@ public class LoginModelo implements LoginInterface.Modelo {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
-                try {
-                    JSONObject json = new JSONObject(response.body().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 if(response.body().getStatus().equals("200")){
-                    Log.i("mensje","da"+""+response.body().getUser_id()+" "+response.body().getStatus());
+                    Preference preference = PowerPreference.getFileByName("lecturista");
+                    preference.setString("usuario",usuario);
+                    preference.setBoolean("logged", true);
+                    preference.setString("token",response.body().getToken());
+                    lPresentador.loginCorrecto(usuario);
                 }
-                lPresentador.loginCorrecto();
+
                 }else{
                     Gson gson = new Gson();
                     LoginError message=gson.fromJson(response.errorBody().charStream(),LoginError.class);
@@ -65,6 +74,14 @@ public class LoginModelo implements LoginInterface.Modelo {
                 lPresentador.mostrarError(t.toString());
             }
         });
+    }
+
+    //------Verifica si el usuario ya inicio sesion-----//
+    public void checkLoginUser(){
+        Preference preference = PowerPreference.getFileByName("lecturista");
+        boolean logged = preference.getBoolean("logged");
+        String usr = preference.getString("usuario");
+        lPresentador.returnlogin(logged, usr);
     }
 
 }

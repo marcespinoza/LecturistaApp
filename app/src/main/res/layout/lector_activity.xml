@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Vista.MainActivity">
+    tools:context=".Vista.LectorActivity">
 
     <ImageView
         android:id="@+id/cropimage"
@@ -14,22 +14,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/texto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:fontFamily="@font/robotobold"
+        android:textSize="25sp"
         android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintBottom_toTopOf="@id/capturar" />
+       app:layout_constraintTop_toBottomOf="@id/cropimage" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/capturar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Capturar imagen"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cornerRadius="15dp"
+        app:backgroundTint="@color/blue_grey_600"
+        app:layout_constraintTop_toBottomOf="@+id/texto"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,12 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class LectorActivity extends AppCompatActivity {
 
     @BindView(R.id.cropimage)
     ImageView imageView;
     @BindView(R.id.texto)
-    TextView texto;
+    EditText texto;
 
     Bitmap image;
     String targetPath = "";
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.lector_activity);
          ButterKnife.bind(this);
     }
 

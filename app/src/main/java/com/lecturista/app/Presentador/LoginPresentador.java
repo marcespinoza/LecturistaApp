@@ -4,8 +4,6 @@ import com.lecturista.app.Interface.LoginInterface;
 import com.lecturista.app.Modelo.LoginModelo;
 import com.lecturista.app.Vista.LoginActivity;
 
-import java.security.MessageDigest;
-
 public class LoginPresentador implements LoginInterface.Presentador {
 
     private LoginInterface.Modelo lModelo;
@@ -18,12 +16,12 @@ public class LoginPresentador implements LoginInterface.Presentador {
 
     @Override
     public void enviarLogin(String usuario, String password) {
-        lModelo.verificarLogin(usuario, getSHA256(password));
+        lModelo.verificarLogin(usuario, password);
     }
 
     @Override
-    public void loginCorrecto() {
-        lVista.loginCorrecto();
+    public void loginCorrecto(String usuario) {
+        lVista.loginCorrecto(usuario);
     }
 
     @Override
@@ -31,7 +29,17 @@ public class LoginPresentador implements LoginInterface.Presentador {
         lVista.mostrarError(s);
     }
 
-    public static String getSHA256(String data){
+    @Override
+    public void checkLogin() {
+        lModelo.checkLogin();
+    }
+
+    @Override
+    public void returnlogin(boolean logged, String usuario) {
+        if(logged)lVista.startButtonActivity(usuario);
+    }
+
+   /* public static String getSHA256(String data){
         StringBuffer sb = new StringBuffer();
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -45,7 +53,7 @@ public class LoginPresentador implements LoginInterface.Presentador {
             e.printStackTrace();
         }
         return sb.toString();
-    }
+    }*/
 
 
 }

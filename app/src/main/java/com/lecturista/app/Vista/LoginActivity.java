@@ -52,6 +52,11 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
                 login(usuario.getText().toString(), clave.getText().toString());
             }
         });
+        checkLogin();
+    }
+
+    private void checkLogin(){
+        presentador.checkLogin();
     }
 
     public void login(String usuario, String clave) {
@@ -59,10 +64,8 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
         presentador.enviarLogin(usuario, clave);
     }
 
-    private void login(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    private void login(String usuario){
+        startActivity(usuario);
     }
 
     @Override
@@ -77,8 +80,24 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     }
 
     @Override
-    public void loginCorrecto() {
+    public void loginCorrecto(String usuario) {
         pDialog.finishDialog();
-        login();
+        login(usuario);
     }
+
+    @Override
+    public void startButtonActivity(String usuario) {
+        startActivity(usuario);
+    }
+
+    public void startActivity(String usuario){
+        Intent intent = new Intent(this, ButtonsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("usuario",usuario);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+
 }
