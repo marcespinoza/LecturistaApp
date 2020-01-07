@@ -1,6 +1,8 @@
 package com.lecturista.app.Interface;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.lecturista.app.POJO.Cliente;
 import com.lecturista.app.POJO.LoginResponse;
 
 import retrofit2.Call;
@@ -14,5 +16,9 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("login.php")
     Call<LoginResponse> login(@Body JsonObject user);
+
+    @Headers("Content-Type: application/json")
+    @POST("get_list.php")
+    Call<JsonElement> getClientes(@Body JsonObject user);
 
 }

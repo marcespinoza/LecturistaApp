@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     }
 
     public void startActivity(String usuario){
-        Intent intent = new Intent(this, LoggedActivity.class);
+        Intent intent = new Intent(this, ClienteActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("usuario",usuario);
         intent.putExtras(bundle);

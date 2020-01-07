@@ -2,31 +2,31 @@ package com.lecturista.app.POJO;
 
 public class Cliente {
 
-    String id;
-    String nombre;
-    String direccion;
+    String original_id;
+    String name;
+    String address;
 
-    public String getId() {
-        return id;
+    public String getOriginal_id() {
+        return original_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOriginal_id(String original_id) {
+        this.original_id = original_id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

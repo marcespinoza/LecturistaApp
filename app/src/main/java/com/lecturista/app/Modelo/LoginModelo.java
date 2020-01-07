@@ -58,6 +58,7 @@ public class LoginModelo implements LoginInterface.Modelo {
                     preference.setString("usuario",usuario);
                     preference.setBoolean("logged", true);
                     preference.setString("token",response.body().getToken());
+                    preference.setString("user_id", response.body().getUser_id());
                     Log.i("TOKEN","ID "+response.body().getToken());
                     lPresentador.loginCorrecto(usuario);
                 }

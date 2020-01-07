@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:fontFamily="@font/robotolight"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <RadioGroup
+        android:id="@+id/opciones_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/user"
+        android:orientation="horizontal">
+
+      <RadioButton
+         android:id="@+id/radio_id"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:checked="true"
+         android:text="Id" />
+
+        <RadioButton
+        android:id="@+id/radio_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Nombre" />
+
+        <RadioButton
+            android:id="@+id/radio_femenino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Dirección" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/searchlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/opciones_cliente"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/editextcliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/opciones_cliente"/>
+
+        <ImageButton
+            android:id="@+id/searchbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_search"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_cliente"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/iniciarmedicion"
+        app:layout_constraintTop_toBottomOf="@+id/searchlayout">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+     <com.google.android.material.button.MaterialButton
+         android:id="@+id/iniciarmedicion"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="35dp"
+         android:layout_marginRight="35dp"
+         app:layout_constraintBottom_toTopOf="@+id/corregirmedicion"
+         app:backgroundTint="@color/blue_A400"
+         android:text="Iniciar mediciones"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/corregirmedicion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        app:backgroundTint="@color/blue_A400"
+        app:layout_constraintStart_toStartOf="@+id/iniciarmedicion"
+        app:layout_constraintBottom_toTopOf="@+id/logout"
+        app:layout_constraintEnd_toEndOf="@+id/iniciarmedicion"
+        android:text="Corregir medición anterior"/>
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotobold"
+        android:text="Cerrar sesión"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
