@@ -28,8 +28,8 @@ public class ClientePresentador implements ClienteInterface.LoggedPresentador {
     }
 
     @Override
-    public void buscarCliente(String id) {
-        lModelo.getCliente(id);
+    public void buscarCliente(String id, String criterio) {
+        lModelo.getCliente(id, criterio);
     }
 
     @Override

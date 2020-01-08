@@ -44,12 +44,12 @@ public class ClienteModelo implements ClienteInterface.LoggedModelo {
     }
 
     @Override
-    public void getCliente(String id) {
-        requestCliente(id);
+    public void getCliente(String id, String criterio) {
+        requestCliente(id, criterio);
     }
 
     //----------Endpoint login----------//
-    public void requestCliente(String id){
+    public void requestCliente(String id, String criterio){
         Preference preference = PowerPreference.getFileByName("lecturista");
         String usuario = preference.getString("user_id", "");
         String token = preference.getString("token", "");
@@ -58,7 +58,7 @@ public class ClienteModelo implements ClienteInterface.LoggedModelo {
         JsonObject dataCliente = new JsonObject();
         dataCliente.addProperty("user_id",usuario);
         dataCliente.addProperty("token",token);
-        dataCliente.addProperty("name",id);
+        dataCliente.addProperty(criterio,id);
         final Call<JsonElement> batch = apiService.getClientes(dataCliente);
         batch.enqueue(new Callback<JsonElement>() {
             @Override
@@ -80,7 +80,7 @@ public class ClienteModelo implements ClienteInterface.LoggedModelo {
                     }
 
                 }else{
-
+                    Log.i("Error","Error");
                 }
             }
 

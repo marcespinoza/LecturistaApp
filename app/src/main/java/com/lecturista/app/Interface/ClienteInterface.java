@@ -8,13 +8,13 @@ public interface ClienteInterface {
 
   interface LoggedModelo{
       void cerrarSesion();
-      void getCliente(String id);
+      void getCliente(String id, String criterio);
   }
 
   interface LoggedPresentador{
     void cerrarSession();
     void cerrarActivity();
-    void buscarCliente(String id);
+    void buscarCliente(String id, String idBusqueda);
     void retornarCliente(ArrayList<Cliente> lclientes);
     void mostrarError();
   }

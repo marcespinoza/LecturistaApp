@@ -31,7 +31,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Cliente cliente = lClientes.get(position);
+        holder.idcliente.setText(lClientes.get(position).getOriginal_id());
         holder.nombre.setText(lClientes.get(position).getName());
         holder.direccion.setText(lClientes.get(position).getAddress());
     }
@@ -42,12 +42,20 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
         return lClientes.size();
     }
 
+    public void clear(){
+        if(lClientes!=null){
+           lClientes.clear();
+           notifyDataSetChanged();
+        }
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder  {
 
-        private TextView nombre, direccion;
+        private TextView idcliente, nombre, direccion;
 
         public ViewHolder(View view) {
             super(view);
+            idcliente = view.findViewById(R.id.idcliente);
             nombre = view.findViewById(R.id.nombrecliente);
             direccion = view.findViewById(R.id.direccioncliente);
         }

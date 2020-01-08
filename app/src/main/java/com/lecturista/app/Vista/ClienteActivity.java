@@ -3,6 +3,8 @@ package com.lecturista.app.Vista;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class ClienteActivity extends AppCompatActivity implements ClienteInterface.LoggedVista, Logout.DialogCallback {
@@ -33,8 +36,11 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     RecyclerView recyclerView;
     @BindView(R.id.editextcliente)
     EditText campobuscar;
+    @BindView(R.id.opciones_busqueda)
+    RadioGroup radioGroup;
     ClienteAdapter cAdapter;
     CustomProgressDialog customProgressDialog;
+    String criterioBusqueda;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +49,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
         ButterKnife.bind(this);
         customProgressDialog = new CustomProgressDialog();
         Intent intent = getIntent();
+        criterioBusqueda = "name";
         if (null != intent) { //Null Checking
             String usr= intent.getStringExtra("usuario");
             usuario.setText(usr);
@@ -62,7 +69,31 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     public void buscarCliente(){
         if(!campobuscar.getText().equals("")){
             customProgressDialog.show(this, "Buscando clientes");
-            lPresentador.buscarCliente(campobuscar.getText().toString());
+            lPresentador.buscarCliente(campobuscar.getText().toString(), criterioBusqueda);
+        }
+    }
+
+    @OnCheckedChanged({R.id.radio_id, R.id.radio_nombre, R.id.radio_direccion})
+    public void onRadioClicked(RadioButton radioButton){
+        boolean checked = radioButton.isChecked();
+        campobuscar.setText("");
+        if (cAdapter!=null) cAdapter.clear();
+        switch (radioButton.getId()) {
+            case R.id.radio_id:
+                if (checked) {
+                    criterioBusqueda = "client_id";
+                }
+                break;
+            case R.id.radio_nombre:
+                if (checked) {
+                    criterioBusqueda = "name";
+                }
+                break;
+            case R.id.radio_direccion:
+                if (checked) {
+                    criterioBusqueda = "address";
+                }
+                break;
         }
     }
 
