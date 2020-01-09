@@ -86,8 +86,9 @@
          android:layout_height="wrap_content"
          android:layout_marginLeft="35dp"
          android:layout_marginRight="35dp"
+         android:enabled="false"
          app:layout_constraintBottom_toTopOf="@+id/corregirmedicion"
-         app:backgroundTint="@color/blue_A400"
+         app:backgroundTint="@color/button_color_states"
          android:text="Iniciar mediciones"/>
 
     <com.google.android.material.button.MaterialButton

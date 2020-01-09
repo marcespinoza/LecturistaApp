@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.lecturista.app.Adapter.ClienteAdapter;
 import com.lecturista.app.Interface.ClienteInterface;
 import com.lecturista.app.POJO.Cliente;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class ClienteActivity extends AppCompatActivity implements ClienteInterface.LoggedVista, Logout.DialogCallback {
+public class ClienteActivity extends AppCompatActivity implements ClienteInterface.LoggedVista, Logout.DialogCallback, ClienteAdapter.ClienteInterface {
 
     @BindView(R.id.user) TextView usuario;
     private ClienteInterface.LoggedPresentador lPresentador;
@@ -41,6 +42,9 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     ClienteAdapter cAdapter;
     CustomProgressDialog customProgressDialog;
     String criterioBusqueda;
+    @BindView(R.id.iniciarmedicion)
+    MaterialButton iniciarmedicion;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +81,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     public void onRadioClicked(RadioButton radioButton){
         boolean checked = radioButton.isChecked();
         campobuscar.setText("");
+        iniciarmedicion.setEnabled(false);
         if (cAdapter!=null) cAdapter.clear();
         switch (radioButton.getId()) {
             case R.id.radio_id:
@@ -112,7 +117,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     @Override
     public void mostrarClientes(ArrayList<Cliente> lclientes) {
         customProgressDialog.ocultar();
-        cAdapter = new ClienteAdapter(lclientes);
+        cAdapter = new ClienteAdapter(lclientes, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(cAdapter);
@@ -121,5 +126,10 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     @Override
     public void clickedPositive() {
          lPresentador.cerrarSession();
+    }
+
+    @Override
+    public void onClienteSelected(String id) {
+        iniciarmedicion.setEnabled(true);
     }
 }
