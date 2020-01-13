@@ -1,11 +1,9 @@
 package com.lecturista.app.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +28,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
     }
 
     public interface ClienteInterface{
-        void onClienteSelected(String id);
+        void onClienteSelected(Cliente cliente);
     }
 
     @NonNull
@@ -49,7 +47,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 holder.checked.setVisibility(View.VISIBLE);
-                clienteInterface.onClienteSelected(lClientes.get(position).getOriginal_id());
+                clienteInterface.onClienteSelected(lClientes.get(position));
                 if (checkedPosition != position) {
                     notifyItemChanged(checkedPosition);
                     checkedPosition = position;

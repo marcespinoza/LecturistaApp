@@ -21,4 +21,8 @@ public interface ApiService {
     @POST("get_list.php")
     Call<JsonElement> getClientes(@Body JsonObject user);
 
+    @Headers("Content-Type: application/json")
+    @POST("save_reading.php")
+    Call<JsonElement> guardarImagen(@Body JsonObject user);
+
 }

@@ -6,13 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".Vista.LectorActivity">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardafiliado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+       app:layout_constrainedHeight="true"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/numafiliado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotolight"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/nomafiliado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotolight"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/dirafiliado"
+            android:textSize="20sp"
+            android:fontFamily="@font/robotolight"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <ImageView
         android:id="@+id/cropimage"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cardafiliado" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/grabar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Grabar medición"
+        android:enabled="false"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/button_color_states"
+        app:layout_constraintTop_toBottomOf="@+id/cropimage"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/texto"
@@ -21,18 +76,21 @@
         android:fontFamily="@font/robotobold"
         android:textSize="25sp"
         android:gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/cropimage" />
+        app:layout_constraintBottom_toTopOf="@+id/capturar"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/capturar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:text="Capturar imagen"
-        app:cornerRadius="15dp"
-        app:backgroundTint="@color/blue_grey_600"
-        app:layout_constraintTop_toBottomOf="@+id/texto"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/button_color_states"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

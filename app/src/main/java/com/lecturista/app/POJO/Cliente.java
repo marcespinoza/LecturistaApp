@@ -1,6 +1,8 @@
 package com.lecturista.app.POJO;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
 
     String original_id;
     String name;

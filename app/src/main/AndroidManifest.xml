@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lecturista.app">
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,11 +14,18 @@
         android:supportsRtl="true"
         android:name=".Application.GlobalApplication"
         android:theme="@style/AppTheme">
-        <activity android:name="com.lecturista.app.Vista.LectorActivity">
-
-        </activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <activity android:name="com.lecturista.app.Vista.LectorActivity"/>
+            <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/Base.Theme.AppCompat"/>
         <activity android:name=".Vista.ClienteActivity"/>
         <activity android:name=".Vista.LoginActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">

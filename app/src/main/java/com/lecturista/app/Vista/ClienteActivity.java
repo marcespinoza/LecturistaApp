@@ -44,7 +44,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     String criterioBusqueda;
     @BindView(R.id.iniciarmedicion)
     MaterialButton iniciarmedicion;
-
+    Cliente cliente;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +68,14 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
             logout.show(fm, "logout");
     }
 
+    @OnClick(R.id.iniciarmedicion)
+    public void startLectorActivity(){
+        Intent intent = new Intent(this, LectorActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("cliente", cliente);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.searchbutton)
     public void buscarCliente(){
@@ -111,7 +119,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
 
     @Override
     public void mostrarError() {
-
+        customProgressDialog.ocultar();
     }
 
     @Override
@@ -129,7 +137,8 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     }
 
     @Override
-    public void onClienteSelected(String id) {
+    public void onClienteSelected(Cliente cliente) {
+        this.cliente = cliente;
         iniciarmedicion.setEnabled(true);
     }
 }

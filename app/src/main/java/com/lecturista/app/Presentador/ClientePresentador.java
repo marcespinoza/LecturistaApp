@@ -39,6 +39,6 @@ public class ClientePresentador implements ClienteInterface.LoggedPresentador {
 
     @Override
     public void mostrarError() {
-
+        lVista.mostrarError();
     }
 }

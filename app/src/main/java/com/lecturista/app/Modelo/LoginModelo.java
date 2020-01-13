@@ -14,9 +14,6 @@ import com.lecturista.app.Presentador.LoginPresentador;
 import com.preference.PowerPreference;
 import com.preference.Preference;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -67,14 +67,18 @@ public class ClienteModelo implements ClienteInterface.LoggedModelo {
                     ArrayList<Cliente>lClientes = new ArrayList<>();
                     try {
                         JSONObject jsonObj = new JSONObject(response.body().toString());
+                        if(!jsonObj.getString("data").equals("null")){
                         JSONArray jclientes = jsonObj.getJSONArray("data");
-                        for(int i=0; i<jclientes.length(); i++) {
+                          for(int i=0; i<jclientes.length(); i++) {
                             JSONObject jcliente = jclientes.getJSONObject(i);
                             Gson gson= new Gson();
                             Cliente cliente = gson.fromJson(jcliente.toString(),Cliente.class);
                             lClientes.add(cliente);
-                        }
+                          }
                         lPresentador.retornarCliente(lClientes);
+                        }else{
+                            lPresentador.mostrarError();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
