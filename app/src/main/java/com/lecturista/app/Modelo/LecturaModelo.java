@@ -60,23 +60,23 @@ public class LecturaModelo implements LecturaInterface.LecturaModelo {
                 if(response.isSuccessful()){
                     try {
                         JSONObject jsonObj = new JSONObject(response.body().toString());
-                        if(jsonObj.getString("status-msg").equals("ok")){
-                            lPresentador.mostrarMensaje();
+                        if(jsonObj.getString("status").equals("200")){
+                            lPresentador.grabacionExitosa();
                         }else{
-                            lPresentador.mostrarMensaje();
+                            lPresentador.errorGrabacion("Error al grabar. Intente nuevamente");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }else{
-                    Log.i("mensje","da"+""+response.errorBody().toString());
+                    lPresentador.mostrarMensaje(response.errorBody().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                lPresentador.grabacionExitosa();
+                lPresentador.mostrarMensaje(t.getMessage());
             }
         });
     }

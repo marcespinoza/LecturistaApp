@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     }
 
     private void checkLogin(){
+        pDialog.showProgressDialog("Verificando token");
         presentador.checkLogin();
     }
 
@@ -71,11 +72,15 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     @Override
     protected void onResume() {
         super.onResume();
+        checkLogin();
     }
 
+
     @Override
-    public void mostrarError(String s) {
-        pDialog.finishDialog();
+    public void mostrarMensaje(String s) {
+        if(pDialog.showing()){
+          pDialog.finishDialog();
+        }
         Toast.makeText(this,s, Toast.LENGTH_SHORT).show();
     }
 
@@ -86,11 +91,20 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     }
 
     @Override
-    public void startButtonActivity(String usuario) {
+    public void startClienteActivity(String usuario) {
         startActivity(usuario);
     }
 
+    @Override
+    public void ocultarDialog() {
+        if(pDialog.showing())
+            pDialog.finishDialog();
+    }
+
     public void startActivity(String usuario){
+        if(pDialog.showing()){
+            pDialog.finishDialog();
+        }
         Intent intent = new Intent(this, ClienteActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("usuario",usuario);

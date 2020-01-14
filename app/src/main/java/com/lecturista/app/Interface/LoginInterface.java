@@ -9,13 +9,15 @@ public interface LoginInterface {
     interface Presentador{
         void enviarLogin(String usuario, String password);
         void loginCorrecto(String usuario);
-        void mostrarError(String s);
+        void mostrarMensaje(String s);
         void checkLogin();
         void returnlogin(boolean logged, String usuario);
+        void finishDialog();
     }
     interface Vista{
-        void mostrarError(String s);
+        void mostrarMensaje(String s);
         void loginCorrecto(String usuario);
-        void startButtonActivity(String usuario);
+        void startClienteActivity(String usuario);
+        void ocultarDialog();
     }
 }

@@ -3,6 +3,7 @@ package com.lecturista.app.Modelo;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lecturista.app.Application.GlobalApplication;
 import com.lecturista.app.Helper.APICLient;
@@ -13,6 +14,9 @@ import com.lecturista.app.POJO.LoginResponse;
 import com.lecturista.app.Presentador.LoginPresentador;
 import com.preference.PowerPreference;
 import com.preference.Preference;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,13 +68,50 @@ public class LoginModelo implements LoginInterface.Modelo {
                     Gson gson = new Gson();
                     LoginError message=gson.fromJson(response.errorBody().charStream(),LoginError.class);
                     Log.i("mensje","da"+""+message.getStatusmessage());
-                    lPresentador.mostrarError(message.getStatusmessage());
+                    lPresentador.mostrarMensaje(message.getStatusmessage());
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                lPresentador.mostrarError(t.toString());
+                lPresentador.mostrarMensaje(t.toString());
+            }
+        });
+    }
+
+    //----------Endpoint verificar token----------//
+    public void verificarToken(String user_id, String token){
+        Retrofit retrofit = APICLient.getApiService();
+        ApiService apiService = retrofit.create(ApiService.class);
+        JsonObject dataLogin = new JsonObject();
+        dataLogin.addProperty("user_id",user_id);
+        dataLogin.addProperty("token",token);
+        final Call<JsonElement> batch = apiService.verifyToken(dataLogin);
+        batch.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                if(response.isSuccessful()){
+                    JSONObject jsonObj = null;
+                    try {
+                        jsonObj = new JSONObject(response.body().toString());
+                        if(jsonObj.getString("status").equals("200")){
+                            Preference preference = PowerPreference.getFileByName("lecturista");
+                            String usr = preference.getString("usuario");
+                            lPresentador.returnlogin(true, usr);
+                        }else{
+                            lPresentador.returnlogin(false, "");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    lPresentador.mostrarMensaje(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                lPresentador.mostrarMensaje(t.toString());
             }
         });
     }
@@ -78,9 +119,16 @@ public class LoginModelo implements LoginInterface.Modelo {
     //------Verifica si el usuario ya inicio sesion-----//
     public void checkLoginUser(){
         Preference preference = PowerPreference.getFileByName("lecturista");
-        boolean logged = preference.getBoolean("logged");
+        boolean logged = preference.getBoolean("logged", false);
         String usr = preference.getString("usuario");
-        lPresentador.returnlogin(logged, usr);
+        if(logged){
+            String userid = preference.getString("user_id");
+            String token = preference.getString("token");
+            verificarToken(userid, token);
+        }else{
+            lPresentador.finishDialog();
+        }
+
     }
 
 }

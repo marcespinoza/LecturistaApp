@@ -22,7 +22,18 @@ public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
     }
 
     @Override
-    public void grabacionExitosa() {
-
+    public void mostrarMensaje(String mensaje) {
+        lVista.error(mensaje);
     }
+
+    @Override
+    public void errorGrabacion(String mensaje) {
+        lVista.error(mensaje);
+    }
+
+    @Override
+    public void grabacionExitosa() {
+        lVista.exito();
+    }
+
 }

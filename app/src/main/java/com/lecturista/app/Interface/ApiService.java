@@ -25,4 +25,7 @@ public interface ApiService {
     @POST("save_reading.php")
     Call<JsonElement> guardarImagen(@Body JsonObject user);
 
+    @Headers("Content-Type: application/json")
+    @POST("check_token.php")
+    Call<JsonElement> verifyToken(@Body JsonObject user);
 }

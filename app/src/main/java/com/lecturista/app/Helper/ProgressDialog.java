@@ -32,7 +32,7 @@ public class ProgressDialog {
         dialog.dismiss();
     }
 
-    protected boolean showing(){
+    public boolean showing(){
         return dialog.isShowing();
     }
 

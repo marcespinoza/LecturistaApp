@@ -36,6 +36,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
+import com.lecturista.app.Helper.ProgressDialog;
 import com.lecturista.app.Interface.LecturaInterface;
 import com.lecturista.app.POJO.Cliente;
 import com.lecturista.app.Presentador.LecturaPresentador;
@@ -60,10 +61,11 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     @BindView(R.id.nomafiliado) TextView nomafiliado;
     @BindView(R.id.dirafiliado) TextView dirafiliado;
     @BindView(R.id.grabar)  MaterialButton grabarboton;
+    @BindView(R.id.capturar) MaterialButton capturarboton;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_PERMISSIONS_REQUEST_CODE = 123;
     public LecturaInterface.LecturaPresentador lPresentador;
-
+    ProgressDialog pDialog;
     Uri imageURI;
     Bitmap image;
     String targetPath = "";
@@ -74,6 +76,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
          setContentView(R.layout.lector_activity);
          ButterKnife.bind(this);
          Bundle bundle = getIntent().getExtras();
+         pDialog = new ProgressDialog(this);
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          getSupportActionBar().setDisplayShowHomeEnabled(true);
          if (bundle != null) {
@@ -90,6 +93,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
 
     @OnClick(R.id.grabar)
     public void grabar(){
+         pDialog.showProgressDialog("Grabando datos...");
          String textoReconocido = texto.getText().toString();
          lPresentador.enviarDatos(image, textoReconocido);
     }
@@ -158,7 +162,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
                      lineText = lineText.replace("B","8");
                      lineText = lineText.replace(" ","");
                      texto.setText(lineText);
-
+                     texto.setEnabled(true);
                  }
          }
         }
@@ -221,7 +225,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
             }
         }else {
             // Do something, when permissions are already granted
-            Toast.makeText(getApplicationContext(),"Permissions already granted",Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -231,11 +235,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
             case MY_PERMISSIONS_REQUEST_CODE:{
                 // When request is cancelled, the results array are empty
                 if(
-                        (grantResults.length >0) &&
-                                (grantResults[0]
-                                        + grantResults[1]
-                                        + grantResults[2]
-                                        == PackageManager.PERMISSION_GRANTED
+                        (grantResults.length >0) &&  (grantResults[0] + grantResults[1]  == PackageManager.PERMISSION_GRANTED
                                 )
                 ){
                     // Permissions are granted
@@ -249,4 +249,20 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
         }
     }
 
+    @Override
+    public void error(String mensaje) {
+        pDialog.finishDialog();
+        Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void exito() {
+        pDialog.finishDialog();
+        Toast.makeText(getApplicationContext(),"Grabación exitosa.",Toast.LENGTH_SHORT).show();
+        grabarboton.setEnabled(false);
+        capturarboton.setEnabled(true);
+        imageView.setImageResource(0);
+        texto.setText("");
+        texto.setEnabled(false);
+    }
 }

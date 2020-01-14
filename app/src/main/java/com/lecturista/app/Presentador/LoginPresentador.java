@@ -25,9 +25,10 @@ public class LoginPresentador implements LoginInterface.Presentador {
     }
 
     @Override
-    public void mostrarError(String s) {
-        lVista.mostrarError(s);
+    public void mostrarMensaje(String s) {
+        lVista.mostrarMensaje(s);
     }
+
 
     @Override
     public void checkLogin() {
@@ -36,24 +37,17 @@ public class LoginPresentador implements LoginInterface.Presentador {
 
     @Override
     public void returnlogin(boolean logged, String usuario) {
-        if(logged)lVista.startButtonActivity(usuario);
+        if(logged){
+            lVista.startClienteActivity(usuario);
+        }else{
+            lVista.mostrarMensaje("Token invalido");
+        }
     }
 
-   /* public static String getSHA256(String data){
-        StringBuffer sb = new StringBuffer();
-        try{
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(data.getBytes());
-            byte byteData[] = md.digest();
-
-            for (int i = 0; i < byteData.length; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }*/
+    @Override
+    public void finishDialog() {
+        lVista.ocultarDialog();
+    }
 
 
 }
