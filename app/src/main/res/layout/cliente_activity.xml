@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -13,12 +14,21 @@
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/opciones_busqueda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_margin="6dp"
+        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@+id/user"
+        android:orientation="vertical">
+
+    <RadioGroup
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+
         android:orientation="horizontal">
 
       <RadioButton
@@ -70,13 +80,15 @@
 
     </LinearLayout>
 
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cliente"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/iniciarmedicion"
-        app:layout_constraintTop_toBottomOf="@+id/searchlayout">
+        app:layout_constraintTop_toBottomOf="@+id/opciones_busqueda">
 
     </androidx.recyclerview.widget.RecyclerView>
 

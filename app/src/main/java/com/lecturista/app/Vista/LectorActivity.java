@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -36,15 +38,14 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
+import com.lecturista.app.Adapter.LecturasAdapter;
 import com.lecturista.app.Helper.ProgressDialog;
 import com.lecturista.app.Interface.LecturaInterface;
 import com.lecturista.app.POJO.Cliente;
+import com.lecturista.app.POJO.Reading;
 import com.lecturista.app.Presentador.LecturaPresentador;
 import com.lecturista.app.R;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,8 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     private static final int MY_PERMISSIONS_REQUEST_CODE = 123;
     public LecturaInterface.LecturaPresentador lPresentador;
     ProgressDialog pDialog;
+    @BindView(R.id.recycler_lecturas) RecyclerView recyclerView;
+    LecturasAdapter lAdapter;
     Uri imageURI;
     Bitmap image;
     String targetPath = "";
@@ -89,6 +92,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
              checkPermission();
          }
          lPresentador = new LecturaPresentador(this);
+         lPresentador.obtenerLecturas();
     }
 
     @OnClick(R.id.grabar)
@@ -166,7 +170,6 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
                  }
          }
         }
-
      }
 
     @Override
@@ -264,5 +267,13 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
         imageView.setImageResource(0);
         texto.setText("");
         texto.setEnabled(false);
+    }
+
+    @Override
+    public void cargarLecturas(ArrayList<Reading> lreading) {
+        lAdapter = new LecturasAdapter(lreading);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(lAdapter);
     }
 }

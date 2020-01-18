@@ -3,6 +3,7 @@ package com.lecturista.app.Vista;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     @BindView(R.id.editextcliente)
     EditText campobuscar;
     @BindView(R.id.opciones_busqueda)
-    RadioGroup radioGroup;
+    LinearLayout radioGroup;
     ClienteAdapter cAdapter;
     CustomProgressDialog customProgressDialog;
     String criterioBusqueda;

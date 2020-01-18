@@ -4,7 +4,10 @@ import android.graphics.Bitmap;
 
 import com.lecturista.app.Interface.LecturaInterface;
 import com.lecturista.app.Modelo.LecturaModelo;
+import com.lecturista.app.POJO.Reading;
 import com.lecturista.app.Vista.LectorActivity;
+
+import java.util.ArrayList;
 
 public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
 
@@ -34,6 +37,16 @@ public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
     @Override
     public void grabacionExitosa() {
         lVista.exito();
+    }
+
+    @Override
+    public void obtenerLecturas() {
+        lModelo.lecturas();
+    }
+
+    @Override
+    public void retornarLecturas(ArrayList<Reading> lreading) {
+        lVista.cargarLecturas(lreading);
     }
 
 }

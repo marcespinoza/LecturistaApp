@@ -28,4 +28,8 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("check_token.php")
     Call<JsonElement> verifyToken(@Body JsonObject user);
+
+    @Headers("Content-Type: application/json")
+    @POST("last_readings.php")
+    Call<JsonElement> last_readings(@Body JsonObject user);
 }
