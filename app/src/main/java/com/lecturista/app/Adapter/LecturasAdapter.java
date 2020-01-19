@@ -1,5 +1,6 @@
 package com.lecturista.app.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lecturista.app.POJO.Reading;
 import com.lecturista.app.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.LecturaHolder> {
 
     ArrayList<Reading> lreadings;
+    SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
 
     public LecturasAdapter(ArrayList<Reading> lreadings) {
         this.lreadings = lreadings;
@@ -31,7 +34,7 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
     @Override
     public void onBindViewHolder(@NonNull LecturaHolder holder, int position) {
         holder.reading.setText(lreadings.get(position).getReading());
-        holder.createdat.setText(lreadings.get(position).getCreated_at());
+        holder.createdat.setText(output.format(lreadings.get(position).getCreated_at()));
     }
 
     @Override
@@ -48,6 +51,13 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
             super(itemView);
             reading = itemView.findViewById(R.id.reading);
             createdat = itemView.findViewById(R.id.created_at);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Log.i("item","item "+getAdapterPosition());
+                    return false;
+                }
+            });
         }
     }
 

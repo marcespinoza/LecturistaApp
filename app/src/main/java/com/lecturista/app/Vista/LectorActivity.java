@@ -92,7 +92,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
              checkPermission();
          }
          lPresentador = new LecturaPresentador(this);
-         lPresentador.obtenerLecturas();
+         ultimasLecturas();
     }
 
     @OnClick(R.id.grabar)
@@ -100,6 +100,11 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
          pDialog.showProgressDialog("Grabando datos...");
          String textoReconocido = texto.getText().toString();
          lPresentador.enviarDatos(image, textoReconocido);
+    }
+
+    public void ultimasLecturas(){
+        pDialog.showProgressDialog("Obteniendo ultimas lecturas...");
+        lPresentador.obtenerLecturas();
     }
 
     @OnClick(R.id.capturar)
@@ -271,9 +276,12 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
 
     @Override
     public void cargarLecturas(ArrayList<Reading> lreading) {
+        if(pDialog.showing()){
+            pDialog.finishDialog();
+        }
         lAdapter = new LecturasAdapter(lreading);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(lAdapter);
     }
 }

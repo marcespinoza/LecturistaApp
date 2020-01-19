@@ -10,8 +10,9 @@
         android:id="@+id/cardafiliado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey_300"
         android:layout_margin="5dp"
-       app:layout_constrainedHeight="true"
+        app:layout_constrainedHeight="true"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +26,7 @@
             android:id="@+id/numafiliado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/robotolight"
+            android:fontFamily="@font/robotobold"
             android:gravity="center_horizontal"
             android:textSize="20sp"/>
 
@@ -51,11 +52,14 @@
 
     <ImageView
         android:id="@+id/cropimage"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardafiliado" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/grabar"
@@ -67,17 +71,21 @@
         app:cornerRadius="10dp"
         app:backgroundTint="@color/button_color_states"
         app:layout_constraintTop_toBottomOf="@+id/cropimage"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_lecturas"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="6dp"
         android:id="@+id/recycler_lecturas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/grabar"/>
+        android:layout_height="200dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/grabar"
+        app:layout_constraintBottom_toTopOf="@+id/texto"/>
 
     <EditText
         android:id="@+id/texto"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/robotobold"
         android:textSize="25sp"
@@ -87,6 +95,7 @@
         android:enabled="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_lecturas"
         app:layout_constraintBottom_toTopOf="@+id/capturar"/>
 
     <com.google.android.material.button.MaterialButton
@@ -97,6 +106,7 @@
         android:text="Capturar imagen"
         app:cornerRadius="10dp"
         app:backgroundTint="@color/button_color_states"
+        app:layout_constraintTop_toBottomOf="@id/texto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

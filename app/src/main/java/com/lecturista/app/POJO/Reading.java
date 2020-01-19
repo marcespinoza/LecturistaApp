@@ -1,5 +1,7 @@
 package com.lecturista.app.POJO;
 
+import java.util.Date;
+
 public class Reading {
 
     String id_reqrite;
@@ -8,7 +10,7 @@ public class Reading {
     String name;
     String addres;
     String reading;
-    String created_at;
+    Date created_at;
 
     public String getId_reqrite() {
         return id_reqrite;
@@ -58,11 +60,11 @@ public class Reading {
         this.reading = reading;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 }
