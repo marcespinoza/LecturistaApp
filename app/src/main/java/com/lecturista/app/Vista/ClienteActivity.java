@@ -81,6 +81,8 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     @OnClick(R.id.searchbutton)
     public void buscarCliente(){
         if(!campobuscar.getText().equals("")){
+            if(cAdapter!=null)
+                cAdapter.clear();
             customProgressDialog.show(this, "Buscando clientes");
             lPresentador.buscarCliente(campobuscar.getText().toString(), criterioBusqueda);
         }

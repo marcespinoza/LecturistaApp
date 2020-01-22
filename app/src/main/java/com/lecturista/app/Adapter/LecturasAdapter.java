@@ -1,6 +1,5 @@
 package com.lecturista.app.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,15 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
 
     ArrayList<Reading> lreadings;
     SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+    public RewriteReading rReading;
 
-    public LecturasAdapter(ArrayList<Reading> lreadings) {
+    public interface RewriteReading{
+        void onClickReading(Reading id_reqrite);
+    }
+
+    public LecturasAdapter(ArrayList<Reading> lreadings, RewriteReading rReading) {
         this.lreadings = lreadings;
+        this.rReading = rReading;
     }
 
     @NonNull
@@ -54,7 +59,7 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    Log.i("item","item "+getAdapterPosition());
+                    rReading.onClickReading(lreadings.get(getAdapterPosition()));
                     return false;
                 }
             });

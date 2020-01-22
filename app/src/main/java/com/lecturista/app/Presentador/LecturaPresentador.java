@@ -20,8 +20,8 @@ public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
     }
 
     @Override
-    public void enviarDatos(Bitmap image, String textoReconocido) {
-        lModelo.grabarDatos(image, textoReconocido);
+    public void enviarDatos(Bitmap image, String textoReconocido, boolean rewrite, String id_rewrite, String id_affiliate) {
+        lModelo.grabarDatos(image, textoReconocido, rewrite, id_rewrite, id_affiliate);
     }
 
     @Override

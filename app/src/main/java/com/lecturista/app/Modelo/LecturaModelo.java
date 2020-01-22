@@ -11,8 +11,6 @@ import com.lecturista.app.Application.GlobalApplication;
 import com.lecturista.app.Helper.APICLient;
 import com.lecturista.app.Interface.ApiService;
 import com.lecturista.app.Interface.LecturaInterface;
-import com.lecturista.app.POJO.LoginError;
-import com.lecturista.app.POJO.LoginResponse;
 import com.lecturista.app.POJO.Reading;
 import com.lecturista.app.Presentador.LecturaPresentador;
 import com.preference.PowerPreference;
@@ -23,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -41,8 +38,8 @@ public class LecturaModelo implements LecturaInterface.LecturaModelo {
     }
 
     @Override
-    public void grabarDatos(Bitmap image, String texto) {
-        guardarLectura(image, texto);
+    public void grabarDatos(Bitmap image, String texto, boolean rewrite, String id_rewrite, String id_affiliate) {
+        guardarLectura(image, texto, rewrite,id_rewrite, id_affiliate);
     }
 
     @Override
@@ -52,7 +49,7 @@ public class LecturaModelo implements LecturaInterface.LecturaModelo {
 
 
     //----------Endpoint guardar lectura----------//
-    public void guardarLectura(Bitmap image, String texto){
+    public void guardarLectura(Bitmap image, String texto, boolean rewrite, String id_rewrite, String id_affiliate){
         Preference preference = PowerPreference.getFileByName("lecturista");
         Retrofit retrofit = APICLient.getApiService();
         ApiService apiService = retrofit.create(ApiService.class);
@@ -60,8 +57,12 @@ public class LecturaModelo implements LecturaInterface.LecturaModelo {
         dataLogin.addProperty("user_id",preference.getString("user_id"));
         dataLogin.addProperty("reading",texto);
         dataLogin.addProperty("token", preference.getString("token"));
-        dataLogin.addProperty("affiliate_id",preference.getString("user_id"));
+        dataLogin.addProperty("affiliate_id", id_affiliate);
         dataLogin.addProperty("image64",getEncoded64ImageStringFromBitmap(image));
+        if(rewrite){
+            dataLogin.addProperty("rewrite", rewrite);
+            dataLogin.addProperty("id_rewrite",id_rewrite);
+        }
         final Call<JsonElement> batch = apiService.guardarImagen(dataLogin);
         batch.enqueue(new Callback<JsonElement>() {
             @Override

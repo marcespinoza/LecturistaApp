@@ -8,10 +8,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,7 +54,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LectorActivity extends AppCompatActivity implements LecturaInterface.LecturaVista {
+public class LectorActivity extends AppCompatActivity implements LecturaInterface.LecturaVista, LecturasAdapter.RewriteReading  {
 
     @BindView(R.id.cropimage)  ImageView imageView;
     @BindView(R.id.texto) EditText texto;
@@ -63,6 +63,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     @BindView(R.id.dirafiliado) TextView dirafiliado;
     @BindView(R.id.grabar)  MaterialButton grabarboton;
     @BindView(R.id.capturar) MaterialButton capturarboton;
+    @BindView(R.id.swipe_lecturas) SwipeRefreshLayout sRefresh;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_PERMISSIONS_REQUEST_CODE = 123;
     public LecturaInterface.LecturaPresentador lPresentador;
@@ -71,6 +72,9 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     LecturasAdapter lAdapter;
     Uri imageURI;
     Bitmap image;
+    boolean rewrite = false;
+    String id_rewrite = "";
+    String id_affiliate = "";
     String targetPath = "";
 
      @Override
@@ -82,6 +86,12 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
          pDialog = new ProgressDialog(this);
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          getSupportActionBar().setDisplayShowHomeEnabled(true);
+         sRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+             @Override
+             public void onRefresh() {
+                 ultimasLecturas();
+             }
+         });
          if (bundle != null) {
              Cliente  cliente = (Cliente) bundle.getSerializable("cliente");
              numafiliado.setText(cliente.getOriginal_id());
@@ -99,16 +109,18 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     public void grabar(){
          pDialog.showProgressDialog("Grabando datos...");
          String textoReconocido = texto.getText().toString();
-         lPresentador.enviarDatos(image, textoReconocido);
+         lPresentador.enviarDatos(image, textoReconocido, rewrite, id_rewrite, id_affiliate);
     }
 
     public void ultimasLecturas(){
-        pDialog.showProgressDialog("Obteniendo ultimas lecturas...");
+        sRefresh.setRefreshing(true);
         lPresentador.obtenerLecturas();
     }
 
     @OnClick(R.id.capturar)
     public void capturar(){
+        rewrite = false;
+        id_affiliate = numafiliado.getText().toString();
         Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(Environment.getExternalStorageDirectory(), "captura.jpg");
         imageURI = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
@@ -126,7 +138,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
         else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                //Habilito el boton de enviar grabacio//
+                //Habilito el boton de enviar grabación//
                 grabarboton.setEnabled(true);
                 Uri resultUri = result.getUri();
                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -267,6 +279,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     public void exito() {
         pDialog.finishDialog();
         Toast.makeText(getApplicationContext(),"Grabación exitosa.",Toast.LENGTH_SHORT).show();
+        ultimasLecturas();
         grabarboton.setEnabled(false);
         capturarboton.setEnabled(true);
         imageView.setImageResource(0);
@@ -276,12 +289,21 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
 
     @Override
     public void cargarLecturas(ArrayList<Reading> lreading) {
+        sRefresh.setRefreshing(false);
         if(pDialog.showing()){
             pDialog.finishDialog();
         }
-        lAdapter = new LecturasAdapter(lreading);
+        lAdapter = new LecturasAdapter(lreading, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(lAdapter);
+    }
+
+    @Override
+    public void onClickReading(Reading reading) {
+        capturar();
+        rewrite =  true;
+        this.id_rewrite = reading.getId_rewrite();
+        this.id_affiliate = reading.getAffiliate_id();
     }
 }

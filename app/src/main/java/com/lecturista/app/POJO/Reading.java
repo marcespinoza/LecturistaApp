@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Reading {
 
-    String id_reqrite;
+    String id_rewrite;
     String lecturista_id;
     String affiliate_id;
     String name;
@@ -12,12 +12,12 @@ public class Reading {
     String reading;
     Date created_at;
 
-    public String getId_reqrite() {
-        return id_reqrite;
+    public String getId_rewrite() {
+        return id_rewrite;
     }
 
-    public void setId_reqrite(String id_reqrite) {
-        this.id_reqrite = id_reqrite;
+    public void setId_rewrite(String id_rewrite) {
+        this.id_rewrite = id_rewrite;
     }
 
     public String getLecturista_id() {

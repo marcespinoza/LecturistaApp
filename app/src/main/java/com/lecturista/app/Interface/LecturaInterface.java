@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface LecturaInterface {
 
     interface LecturaPresentador{
-        void enviarDatos(Bitmap image, String textoReconocido);
+        void enviarDatos(Bitmap image, String textoReconocido, boolean rewrite, String idRewrite, String id_affiliate);
         void mostrarMensaje(String mensaje);
         void errorGrabacion(String mensaje);
         void grabacionExitosa();
@@ -17,7 +17,7 @@ public interface LecturaInterface {
         void retornarLecturas(ArrayList<Reading> lreading);
     }
     interface LecturaModelo{
-        void grabarDatos(Bitmap image, String textoReconocido);
+        void grabarDatos(Bitmap image, String textoReconocido, boolean rewrite, String id_rewrite, String id_affiliate);
         void lecturas();
     }
     interface LecturaVista{
