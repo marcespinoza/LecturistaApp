@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Vista.LectorActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardafiliado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey_300"
+        android:layout_margin="5dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/numafiliado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotobold"
+            android:gravity="center_horizontal"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/nomafiliado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotobold"
+            android:gravity="center_horizontal"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/dirafiliado"
+            android:textSize="15sp"
+            android:fontFamily="@font/robotobold"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/cropimage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardafiliado"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/grabar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:text="Grabar medición"
+        android:enabled="false"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/button_color_states"
+        app:layout_constraintTop_toBottomOf="@+id/cropimage"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_lecturas"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+       android:id="@+id/swipe_lecturas"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:layout_constrainedHeight="true"
+       app:layout_constraintTop_toBottomOf="@+id/grabar"
+       app:layout_constraintBottom_toTopOf="@+id/texto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="6dp"
+        android:id="@+id/recycler_lecturas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+               />
+
+   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <EditText
+        android:id="@+id/texto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotobold"
+        android:textSize="17sp"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey_200"
+        android:enabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipe_lecturas"
+        app:layout_constraintBottom_toTopOf="@+id/capturar"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/capturar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:text="Capturar imagen"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/button_color_states"
+        app:layout_constraintTop_toBottomOf="@id/texto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

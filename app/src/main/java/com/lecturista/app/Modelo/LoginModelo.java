@@ -105,7 +105,7 @@ public class LoginModelo implements LoginInterface.Modelo {
                         e.printStackTrace();
                     }
                 }else{
-                    lPresentador.mostrarMensaje(response.errorBody().toString());
+                    lPresentador.mostrarMensaje("Token inválido");
                 }
             }
 
