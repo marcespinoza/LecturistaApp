@@ -109,7 +109,7 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     public void grabar(){
          pDialog.showProgressDialog("Grabando datos...");
          String textoReconocido = texto.getText().toString();
-         lPresentador.enviarDatos(image, textoReconocido, rewrite, id_rewrite, id_affiliate);
+         lPresentador.enviarDatos(image, textoReconocido, rewrite, id_rewrite, numafiliado.getText().toString());
     }
 
     public void ultimasLecturas(){
@@ -120,7 +120,6 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     @OnClick(R.id.capturar)
     public void capturar(){
         rewrite = false;
-        id_affiliate = numafiliado.getText().toString();
         Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(Environment.getExternalStorageDirectory(), "captura.jpg");
         imageURI = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
@@ -304,6 +303,5 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
         capturar();
         rewrite =  true;
         this.id_rewrite = reading.getId_rewrite();
-        this.id_affiliate = reading.getAffiliate_id();
     }
 }
