@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButton;
 import com.lecturista.app.Adapter.ClienteAdapter;
 import com.lecturista.app.Interface.ClienteInterface;
 import com.lecturista.app.POJO.Cliente;
+import com.lecturista.app.POJO.Lectura;
 import com.lecturista.app.Presentador.ClientePresentador;
 import com.lecturista.app.R;
 import com.lecturista.app.Vista.Dialog.CustomProgressDialog;
@@ -43,8 +44,8 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     ClienteAdapter cAdapter;
     CustomProgressDialog customProgressDialog;
     String criterioBusqueda;
-    @BindView(R.id.iniciarmedicion)
-    MaterialButton iniciarmedicion;
+    @BindView(R.id.iniciarmedicion) MaterialButton iniciarmedicion;
+    @BindView(R.id.corregirmedicion) MaterialButton corregirmedicion;
     Cliente cliente;
 
     @Override
@@ -75,6 +76,12 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
         Bundle bundle = new Bundle();
         bundle.putSerializable("cliente", cliente);
         intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.corregirmedicion)
+    public void startLecturaActivity(){
+        Intent intent = new Intent(this, LecturaActivity.class);
         startActivity(intent);
     }
 
@@ -143,5 +150,6 @@ public class ClienteActivity extends AppCompatActivity implements ClienteInterfa
     public void onClienteSelected(Cliente cliente) {
         this.cliente = cliente;
         iniciarmedicion.setEnabled(true);
+        corregirmedicion.setEnabled(true);
     }
 }

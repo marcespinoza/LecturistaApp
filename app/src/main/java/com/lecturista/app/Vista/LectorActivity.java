@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
@@ -40,21 +38,20 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
 import com.lecturista.app.Adapter.LecturasAdapter;
 import com.lecturista.app.Helper.ProgressDialog;
-import com.lecturista.app.Interface.LecturaInterface;
+import com.lecturista.app.Interface.LectorInterface;
 import com.lecturista.app.POJO.Cliente;
 import com.lecturista.app.POJO.Reading;
-import com.lecturista.app.Presentador.LecturaPresentador;
+import com.lecturista.app.Presentador.LectorPresentador;
 import com.lecturista.app.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LectorActivity extends AppCompatActivity implements LecturaInterface.LecturaVista, LecturasAdapter.RewriteReading  {
+public class LectorActivity extends AppCompatActivity implements LectorInterface.LecturaVista  {
 
     @BindView(R.id.cropimage)  ImageView imageView;
     @BindView(R.id.texto) EditText texto;
@@ -63,15 +60,12 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
     @BindView(R.id.dirafiliado) TextView dirafiliado;
     @BindView(R.id.grabar)  MaterialButton grabarboton;
     @BindView(R.id.capturar) MaterialButton capturarboton;
-    @BindView(R.id.swipe_lecturas) SwipeRefreshLayout sRefresh;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_PERMISSIONS_REQUEST_CODE = 123;
-    public LecturaInterface.LecturaPresentador lPresentador;
-    ProgressDialog pDialog;
-    @BindView(R.id.recycler_lecturas) RecyclerView recyclerView;
-    LecturasAdapter lAdapter;
+    public LectorInterface.LecturaPresentador lPresentador;
     Uri imageURI;
     Bitmap image;
+    ProgressDialog pDialog;
     boolean rewrite = false;
     String id_rewrite = "";
     String id_affiliate = "";
@@ -86,23 +80,24 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
          pDialog = new ProgressDialog(this);
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          getSupportActionBar().setDisplayShowHomeEnabled(true);
-         sRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-             @Override
-             public void onRefresh() {
-                 ultimasLecturas();
-             }
-         });
          if (bundle != null) {
              Cliente  cliente = (Cliente) bundle.getSerializable("cliente");
-             numafiliado.setText(cliente.getOriginal_id());
-             nomafiliado.setText(cliente.getName());
-             dirafiliado.setText(cliente.getAddress());
+             Reading reading =(Reading) bundle.getSerializable("reading");
+             if(cliente!=null){
+              numafiliado.setText(cliente.getOriginal_id());
+              nomafiliado.setText(cliente.getName());
+              dirafiliado.setText(cliente.getAddress());
+             }
+             if(reading!=null){
+                numafiliado.setText(reading.getAffiliate_id());
+                nomafiliado.setText(reading.getName());
+                dirafiliado.setText(reading.getAddress());
+             }
          }
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
              checkPermission();
          }
-         lPresentador = new LecturaPresentador(this);
-         ultimasLecturas();
+         lPresentador = new LectorPresentador(this);
     }
 
     @OnClick(R.id.grabar)
@@ -112,10 +107,6 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
          lPresentador.enviarDatos(image, textoReconocido, rewrite, id_rewrite, numafiliado.getText().toString());
     }
 
-    public void ultimasLecturas(){
-        sRefresh.setRefreshing(true);
-        lPresentador.obtenerLecturas();
-    }
 
     @OnClick(R.id.capturar)
     public void capturar(){
@@ -270,15 +261,13 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
 
     @Override
     public void error(String mensaje) {
-        pDialog.finishDialog();
-        Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void exito() {
         pDialog.finishDialog();
         Toast.makeText(getApplicationContext(),"Grabación exitosa.",Toast.LENGTH_SHORT).show();
-        ultimasLecturas();
         grabarboton.setEnabled(false);
         capturarboton.setEnabled(true);
         imageView.setImageResource(0);
@@ -286,22 +275,5 @@ public class LectorActivity extends AppCompatActivity implements LecturaInterfac
         texto.setEnabled(false);
     }
 
-    @Override
-    public void cargarLecturas(ArrayList<Reading> lreading) {
-        sRefresh.setRefreshing(false);
-        if(pDialog.showing()){
-            pDialog.finishDialog();
-        }
-        lAdapter = new LecturasAdapter(lreading, this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(lAdapter);
-    }
 
-    @Override
-    public void onClickReading(Reading reading) {
-        capturar();
-        rewrite =  true;
-        this.id_rewrite = reading.getId_rewrite();
-    }
 }

@@ -1,14 +1,15 @@
 package com.lecturista.app.POJO;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Reading {
+public class Reading implements Serializable {
 
     String id_rewrite;
     String lecturista_id;
     String affiliate_id;
     String name;
-    String addres;
+    String address;
     String reading;
     Date created_at;
 
@@ -44,12 +45,12 @@ public class Reading {
         this.name = name;
     }
 
-    public String getAddres() {
-        return addres;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getReading() {

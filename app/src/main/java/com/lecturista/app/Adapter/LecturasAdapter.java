@@ -41,6 +41,8 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
         holder.reading.setText(lreadings.get(position).getReading());
         holder.createdat.setText(output.format(lreadings.get(position).getCreated_at()));
         holder.affiliate.setText(lreadings.get(position).getAffiliate_id());
+        holder.name.setText(lreadings.get(position).getName());
+        holder.address.setText(lreadings.get(position).getAddress());
     }
 
     @Override
@@ -53,12 +55,16 @@ public class LecturasAdapter extends RecyclerView.Adapter<LecturasAdapter.Lectur
         TextView reading;
         TextView createdat;
         TextView affiliate;
+        TextView name;
+        TextView address;
 
         public LecturaHolder(@NonNull View itemView) {
             super(itemView);
             reading = itemView.findViewById(R.id.reading);
             createdat = itemView.findViewById(R.id.created_at);
             affiliate = itemView.findViewById(R.id.affiliate);
+            name = itemView.findViewById(R.id.name);
+            address = itemView.findViewById(R.id.address);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {

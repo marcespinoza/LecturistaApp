@@ -1,42 +1,19 @@
 package com.lecturista.app.Presentador;
 
-import android.graphics.Bitmap;
-
 import com.lecturista.app.Interface.LecturaInterface;
 import com.lecturista.app.Modelo.LecturaModelo;
 import com.lecturista.app.POJO.Reading;
-import com.lecturista.app.Vista.LectorActivity;
 
 import java.util.ArrayList;
 
 public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
 
-    public LecturaInterface.LecturaModelo lModelo;
-    public LecturaInterface.LecturaVista lVista;
+    LecturaInterface.LecturaModelo lModelo;
+    LecturaInterface.LecturaVista lVista;
 
-    public LecturaPresentador(LectorActivity lVista) {
+    public LecturaPresentador(LecturaInterface.LecturaVista lVista) {
         this.lVista = lVista;
         lModelo = new LecturaModelo(this);
-    }
-
-    @Override
-    public void enviarDatos(Bitmap image, String textoReconocido, boolean rewrite, String id_rewrite, String id_affiliate) {
-        lModelo.grabarDatos(image, textoReconocido, rewrite, id_rewrite, id_affiliate);
-    }
-
-    @Override
-    public void mostrarMensaje(String mensaje) {
-        lVista.error(mensaje);
-    }
-
-    @Override
-    public void errorGrabacion(String mensaje) {
-        lVista.error(mensaje);
-    }
-
-    @Override
-    public void grabacionExitosa() {
-        lVista.exito();
     }
 
     @Override
@@ -49,4 +26,8 @@ public class LecturaPresentador implements LecturaInterface.LecturaPresentador {
         lVista.cargarLecturas(lreading);
     }
 
+    @Override
+    public void mostrarMensaje(String sin_lecturas) {
+
+    }
 }
