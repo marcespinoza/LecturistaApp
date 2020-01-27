@@ -84,14 +84,17 @@ public class LectorActivity extends AppCompatActivity implements LectorInterface
              Cliente  cliente = (Cliente) bundle.getSerializable("cliente");
              Reading reading =(Reading) bundle.getSerializable("reading");
              if(cliente!=null){
-              numafiliado.setText(cliente.getOriginal_id());
-              nomafiliado.setText(cliente.getName());
-              dirafiliado.setText(cliente.getAddress());
+               numafiliado.setText(cliente.getOriginal_id());
+               nomafiliado.setText(cliente.getName());
+               dirafiliado.setText(cliente.getAddress());
              }
              if(reading!=null){
+                setTitle("Corregir medición");
                 numafiliado.setText(reading.getAffiliate_id());
                 nomafiliado.setText(reading.getName());
                 dirafiliado.setText(reading.getAddress());
+                id_rewrite = reading.getId_rewrite();
+                rewrite = true;
              }
          }
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -110,7 +113,6 @@ public class LectorActivity extends AppCompatActivity implements LectorInterface
 
     @OnClick(R.id.capturar)
     public void capturar(){
-        rewrite = false;
         Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(Environment.getExternalStorageDirectory(), "captura.jpg");
         imageURI = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
@@ -273,6 +275,7 @@ public class LectorActivity extends AppCompatActivity implements LectorInterface
         imageView.setImageResource(0);
         texto.setText("");
         texto.setEnabled(false);
+        finish();
     }
 
 
